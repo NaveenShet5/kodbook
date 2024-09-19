@@ -10,7 +10,7 @@ import com.kodbook.repositories.PostRepository;
 
 @Service
 public class PostServiceImplementation
-implements PostService {
+		implements PostService{
 
 	@Autowired
 	PostRepository repo;
@@ -30,5 +30,13 @@ implements PostService {
 		return repo.findAll();
 	}
 	
+	@Override
+	public Post getPost(Long id) {
+		return repo.findById(id).get();
+	}
 
-}
+	@Override
+	public void updatePost(Post post) {
+		repo.save(post);
+	}
+}  
