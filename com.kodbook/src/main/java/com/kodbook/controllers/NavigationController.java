@@ -40,16 +40,31 @@ public class NavigationController {
 			model.addAttribute("allPosts", allPosts);
 			return "home";
 	}
+	
+	
 	@GetMapping("/openMyProfile")
 	public String openMyProfile(Model model, HttpSession session) {
 		String username = (String) session.getAttribute("username");
 		User user = service.getUser(username);
 		model.addAttribute("user", user);
+		List<Post> myPosts = user.getPosts();
+		model.addAttribute("myPosts", myPosts);
+		
 		return "myProfile";
 	}
 	
 	@GetMapping("/openEditProfile")
-	public String openEditProfile() {
-		return "editProfile";
+	public String openEditProfile(HttpSession session) {
+		
+		if(session.getAttribute("username")!=null)
+			return "editProfile";
+		else
+			return "index";
+	}
+	
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "index";
 	}
 }
